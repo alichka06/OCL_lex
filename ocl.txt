@@ -1,0 +1,10 @@
+context Person inv: self.age >=0
+context Person inv: --self.parents->forAll(p|p.age>self.age)
+context Person::hasBirthday() post: self.age=self.age@pre+1.4
+context Person inv: self.parents->size()<=2
+context Person::getsChild() post: self.childs->notEmpty() and self.childs->size() > self.childs@pre->size()
+context Person inv: self.age<18 implies self.cars->isEmpty()
+context Auto inv: "self.registratio"n>=self.constructionYear
+context Person inv: self.cars->notEmpty() implies self.cars->exists( c | Calendar.YEAR - c.constructionYear < self.age)
+context Person inv: self.parents->excludes(self)
+context Person inv: Person.allInstances()->exists(p | p.cars->size() > 0)
